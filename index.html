@@ -24,7 +24,80 @@
             overflow-x: hidden;
         }
 
-        /* Phong cách Glassmorphism */
+        /* --- CSS MÀN HÌNH CHỜ (OVERLAY) --- */
+        #welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 32, 39, 0.75); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .welcome-content h2 {
+            font-size: 38px;
+            margin-bottom: 15px;
+            padding: 0 20px;
+            background: linear-gradient(to right, #00f2fe, #4facfe, #00f2fe);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(79, 172, 254, 0.4);
+            
+            /* Hiệu ứng hiện ra từ từ kết hợp với ánh sáng bóng bẩy */
+            opacity: 0;
+            animation: slowReveal 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards, shineText 3s linear infinite;
+        }
+
+        .welcome-content p {
+            font-size: 16px;
+            color: #b0c4de;
+            letter-spacing: 1px;
+            
+            /* Dòng chữ nhỏ hiện ra sau dòng chữ lớn 1.5 giây */
+            opacity: 0;
+            animation: slowReveal 2s cubic-bezier(0.25, 1, 0.5, 1) 1.5s forwards, blinkText 1.5s infinite 3.5s;
+        }
+
+        .hidden-overlay {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Keyframes cho màn hình chờ */
+        @keyframes slowReveal {
+            0% { 
+                opacity: 0; 
+                transform: translateY(40px); 
+                filter: blur(10px); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0); 
+                filter: blur(0); 
+            }
+        }
+
+        @keyframes shineText {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes blinkText {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.3; }
+        }
+        /* --- KẾT THÚC CSS MÀN HÌNH CHỜ --- */
+
+        /* Phong cách Glassmorphism cho Bảng */
         .container {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
@@ -98,14 +171,12 @@
         tbody tr:nth-child(5) { animation-delay: 0.5s; }
         tbody tr:nth-child(6) { animation-delay: 0.6s; }
 
-        /* Hiệu ứng Hover chung cho các hàng */
         tbody tr:hover {
             transform: scale(1.02) translateX(10px);
             background: rgba(255, 255, 255, 0.08);
             box-shadow: -5px 0 15px rgba(255, 255, 255, 0.1);
         }
 
-        /* Tùy chỉnh Avatar */
         .avatar {
             width: 50px;
             height: 50px;
@@ -119,7 +190,6 @@
             transform: scale(1.15) rotate(5deg);
         }
 
-        /* Tùy chỉnh màu Neon cho Top 1, 2, 3 */
         .top-1 td:first-child { color: #ffd700; font-size: 20px; font-weight: bold; text-shadow: 0 0 10px #ffd700; }
         .top-1 .avatar { border: 2px solid #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
         .top-1:hover { box-shadow: -5px 0 20px rgba(255, 215, 0, 0.3); border-left: 3px solid #ffd700; }
@@ -132,7 +202,6 @@
         .top-3 .avatar { border: 2px solid #cd7f32; box-shadow: 0 0 15px rgba(205, 127, 50, 0.6); }
         .top-3:hover { box-shadow: -5px 0 20px rgba(205, 127, 50, 0.3); border-left: 3px solid #cd7f32; }
 
-        /* Nút Facebook phong cách Neon */
         .fb-btn {
             display: inline-block;
             background: transparent;
@@ -185,7 +254,6 @@
             font-weight: 700;
         }
 
-        /* Khai báo Keyframes Animations */
         @keyframes fadeInContainer {
             0% { opacity: 0; transform: scale(0.95); }
             100% { opacity: 1; transform: scale(1); }
@@ -198,6 +266,18 @@
     </style>
 </head>
 <body>
+
+    <div id="welcome-overlay">
+        <div class="welcome-content">
+            <h2>Cảm ơn bạn trong thời gian qua đã ủng hộ dịch vụ của Minh Fansub</h2>
+            <p>(Nhấp vào bất kỳ đâu trên màn hình để tiếp tục)</p>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="https://github.com/minhfansubdev/mp3/raw/refs/heads/main/Nh%E1%BA%A1c%20vinh%20danh%20c%C3%A1%20nh%C3%A2n%20t%E1%BA%ADp%20th%E1%BB%83%20_Album%20nh%E1%BA%A1c%20s%E1%BB%B1%20ki%E1%BB%87n%20%5BQ4m_00jRrIg%5D.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ thẻ audio.
+    </audio>
 
     <div class="container">
         <div class="header">
@@ -216,7 +296,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Vị trí Top 1 -->
                 <tr class="top-1">
                     <td>🥇 Top 1</td>
                     <td><img src="16b799e1-871a-49bd-bef4-5be19aa0709f.jpg" alt="Avatar" class="avatar"></td>
@@ -224,8 +303,6 @@
                     <td>258,000 VND</td>
                     <td><a href="https://www.facebook.com/profile.php?id=61584238501761" class="fb-btn" target="_blank">Facebook</a></td>
                 </tr>
-
-                <!-- Vị trí Top 2 -->
                 <tr class="top-2">
                     <td>🥈 Top 2</td>
                     <td><img src="6d55067a-9f7a-4b87-8193-0a7b374716d7.jpg" alt="Avatar" class="avatar"></td>
@@ -233,8 +310,6 @@
                     <td>50,000 VND</td>
                     <td><a href="https://www.facebook.com/kcyeuoii" class="fb-btn" target="_blank">Facebook</a></td>
                 </tr>
-
-                <!-- Vị trí Top 3 -->
                 <tr class="top-3">
                     <td>🥉 Top 3</td>
                     <td><img src="8fb12730-2f07-42a0-976d-7b063fd1ad32.jpg" alt="Avatar" class="avatar"></td>
@@ -242,8 +317,6 @@
                     <td>45,000 VND</td>
                     <td><a href="https://www.facebook.com/profile.php?id=61585109639130" class="fb-btn" target="_blank">Facebook</a></td>
                 </tr>
-
-                <!-- Các vị trí tiếp theo -->
                 <tr>
                     <td>4</td>
                     <td><img src="47559827-5435-4e7e-b7a8-6fac734efa03.jpg" alt="Avatar" class="avatar"></td>
@@ -269,9 +342,23 @@
         </table>
 
         <div class="footer">
-            <p>Bản quyền website thuộc về tác giả <strong>Minh Fansub DEV</strong></p>
+            <p>Bản quyền website thuộc về tác giả <strong>Minh Fansub PTL</strong></p>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('welcome-overlay');
+            const bgMusic = document.getElementById('bg-music');
+
+            overlay.addEventListener('click', () => {
+                bgMusic.play().catch(error => {
+                    console.log("Trình duyệt chặn autoplay hoặc link nhạc lỗi:", error);
+                });
+                overlay.classList.add('hidden-overlay');
+            });
+        });
+    </script>
 
 </body>
 </html>
